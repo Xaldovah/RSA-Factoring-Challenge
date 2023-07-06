@@ -1,0 +1,51 @@
+#!/usr/bin/python3
+
+import sys
+
+
+def factorize(number):
+    """
+    Factorize a number into its prime factors.
+
+    Args:
+        number (int): The number to factorize.
+
+    Returns:
+        list: A list of prime factors.
+
+    """
+    factors = []
+    for i in range(2, int(number**0.5) + 1):
+        while number % i == 0:
+            factors.append(i)
+            number //= i
+    if number > 1:
+        factors.append(number)
+    return factors
+
+
+def process_file(file_path):
+    """
+    Process a file containing natural numbers and perform factorization.
+
+    Args:
+        file_path (str): The path to the file containing the natural numbers.
+
+    """
+    with open(file_path, 'r') as file:
+        for line in file:
+            number = int(line.strip())
+            factors = factorize(number)
+            for i in range(len(factors) // 2):
+                factor1 = factors[i]
+                factor2 = factors[-(i + 1)]
+                print(f"{number}={factor1}*{factor2}")
+            sys.stdout.flush()
+
+
+if __name__ == '__main__':
+    if len(sys.argv) != 2:
+        print("Usage: factors <file>")
+        sys.exit(1)
+    file_path = sys.argv[1]
+    process_file(file_path)
