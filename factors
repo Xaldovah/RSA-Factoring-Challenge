@@ -39,7 +39,7 @@ def process_file(file_path):
             for i in range(len(factors) // 2):
                 factor1 = factors[i]
                 factor2 = factors[-(i + 1)]
-                print(f"{number}={factor1}*{factor2}")
+                print(f"{number}={factor2}*{factor1}")
             sys.stdout.flush()
 
 
