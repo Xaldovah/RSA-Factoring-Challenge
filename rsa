@@ -1,0 +1,68 @@
+#!/usr/bin/python3
+"""import modules"""
+
+
+import sys
+import math
+
+
+def is_prime(number):
+    """
+    Check if a number is prime.
+
+    Args:
+        number (int): The number to check.
+
+    Returns:
+        bool: True if the number is prime, False otherwise.
+
+    """
+    if number < 2:
+        return False
+    for i in range(2, int(math.sqrt(number)) + 1):
+        if number % i == 0:
+            return False
+    return True
+
+
+def factorize_rsa(number):
+    """
+    Factorize an RSA number into its prime factors.
+
+    Args:
+        number (int): The RSA number to factorize.
+
+    Returns:
+        tuple: A tuple of prime factors.
+
+    """
+    for i in range(2, int(math.sqrt(number)) + 1):
+        if number % i == 0 and is_prime(i) and is_prime(number // i):
+            return (i, number // i)
+    return None
+
+
+def process_file(file_path):
+    """
+    Process a file containing RSA numbers and perform factorization.
+
+    Args:
+        file_path (str): The path to the file containing the RSA numbers.
+
+    """
+    with open(file_path, 'r') as file:
+        for line in file:
+            number = int(line.strip())
+            factors = factorize_rsa(number)
+            if factors is not None:
+                factor1, factor2 = factors
+                print(f"{number}={factor2}*{factor1}")
+            sys.stdout.flush()
+
+
+if __name__ == '__main__':
+    if len(sys.argv) != 2:
+        print("Usage: rsa <file>")
+        sys.exit(1)
+    file_path = sys.argv[1]
+    process_file(file_path)
